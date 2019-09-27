@@ -8,8 +8,7 @@ white=(255,255,255)
 black=(0,0,0)
 blue = (0,255,255)
 
-
-
+pygame.init()
 (width, height) = (1900, 1000)
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption('Star formation')
@@ -38,7 +37,12 @@ def rectangle(screen,height,width,pos,color):
     pygame.draw.rect(screen,color,(pos[0],pos[1],height,width))
 
 
-
+def fontt(txt):
+    font = pygame.font.Font('freesansbold.ttf',32)
+    text = font.render(txt,True, (255,255,0) , (0,0,0))
+    textRect = text.get_rect()
+    textRect.center = (45,50)
+    return text,textRect
 
 #for p in range(100):
 #    particle_mass = random.randint(1,4)
@@ -64,7 +68,9 @@ while running:
             elif parti == False:
                 posdown = pygame.mouse.get_pos()
                 parti = True
-            
+        
+        if pygame.mouse.get_pressed()[0] and pygame.mouse.get_pos()[0]<=70 and pygame.mouse.get_pos()[0]>=20 and pygame.mouse.get_pos()[1]<=900 and pygame.mouse.get_pos()[1]>=100:
+                y_comp = pygame.mouse.get_pos()[1]
         
         if event.type == pygame.MOUSEBUTTONUP:
             posup = pygame.mouse.get_pos()
@@ -84,8 +90,11 @@ while running:
 
     universe.update()
     screen.fill(universe.colour)
-    rectangle(screen,50,800,[20,100],(0,255,255,0.5))
-    rectangle(screen,50,900-y_comp,[20,y_comp],(128,128,255,0.5))
+    rectangle(screen,50,800,[20,100],(246, 173, 207))
+    rectangle(screen,50,900-y_comp,[20,y_comp],(0,255,255))
+    text,textRect = fontt(str(y_comp))
+    screen.blit(text,textRect)
+
     
     particles_to_remove = []
     for p in universe.particles:

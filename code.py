@@ -3,6 +3,12 @@ import pygame
 import PyParticles
 from math import *
 
+yellow = (255,255,0)
+white=(255,255,255)
+black=(0,0,0)
+blue = (0,255,255)
+
+
 
 (width, height) = (1900, 1000)
 screen = pygame.display.set_mode((width, height))
@@ -13,7 +19,7 @@ universe.colour = (0,0,0)
 universe.addFunctions(['move', 'attract', 'combine'])
 
 def calculateRadius(mass):
-    return 0.5 * mass ** (1/2)
+    return 0.5 * mass ** (1/3)
 
 def planet_creator(mass,speed,angle,pos,colour):
     particle_mass= mass
@@ -22,8 +28,16 @@ def planet_creator(mass,speed,angle,pos,colour):
     c=colour
     universe.addParticles(mass=particle_mass, x=pos[0],y=pos[1],size=particle_size,speed=speed,angle=angle,tup=pos,colour=c)
     
-planet_creator(1000,0,0,[900,500],(100,0,255))
-planet_creator(1,1,0,[800,500],(255,255,255))
+planet_creator(10000,0,0,[900,500],yellow)
+planet_creator(5,4,0,[800,500],white)
+planet_creator(10,-2.5,0,[600,500],yellow)
+planet_creator(10,2,0,[400,500],blue)
+planet_creator(1,2.5,0,[410,500],white)
+
+def rectangle(screen,height,width,pos,color):
+    pygame.draw.rect(screen,color,(pos[0],pos[1],height,width))
+
+
 
 
 #for p in range(100):
@@ -35,7 +49,8 @@ planet_creator(1,1,0,[800,500],(255,255,255))
 posdown = None
 posup = None
 parti = False
-running = True    
+running = True
+y_comp = 200
 #######################
 while running:
     for event in pygame.event.get():
@@ -43,7 +58,10 @@ while running:
             running = False
             break;
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if parti == False:
+            if pygame.mouse.get_pos()[0]<=70 and pygame.mouse.get_pos()[0]>=20 and pygame.mouse.get_pos()[1]<=900 and pygame.mouse.get_pos()[1]>=100:
+                y_comp = pygame.mouse.get_pos()[1]
+            
+            elif parti == False:
                 posdown = pygame.mouse.get_pos()
                 parti = True
             
@@ -60,12 +78,14 @@ while running:
                     angle = pi
                 angle += -atan(dx/dy)
                 speed = sqrt(dx*dx + dy*dy)/200
-                planet_creator(1,speed,angle,posdown,(255,255,255))
+                planet_creator((y_comp- 100)*2,speed,angle,posdown,(255,255,255))
             parti = False
-            
+    
 
     universe.update()
     screen.fill(universe.colour)
+    rectangle(screen,50,800,[20,100],(0,255,255,0.5))
+    rectangle(screen,50,900-y_comp,[20,y_comp],(128,128,255,0.5))
     
     particles_to_remove = []
     for p in universe.particles:

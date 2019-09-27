@@ -3,6 +3,11 @@ import pygame
 import PyParticles
 from math import *
 
+yellow = (255,255,0)
+white=(255,255,255)
+black=(0,0,0)
+blue = (0,255,255)
+
 pygame.init()
 (width, height) = (1900, 1000)
 screen = pygame.display.set_mode((width, height))
@@ -13,7 +18,7 @@ universe.colour = (0,0,0)
 universe.addFunctions(['move', 'attract', 'combine'])
 
 def calculateRadius(mass):
-    return 0.5 * mass ** (1/2)
+    return 0.5 * mass ** (1/3)
 
 def planet_creator(mass,speed,angle,pos,colour):
     particle_mass= mass
@@ -22,8 +27,11 @@ def planet_creator(mass,speed,angle,pos,colour):
     c=colour
     universe.addParticles(mass=particle_mass, x=pos[0],y=pos[1],size=particle_size,speed=speed,angle=angle,tup=pos,colour=c)
     
-planet_creator(1000,0,0,[900,500],(100,0,255))
-planet_creator(1,1,0,[800,500],(255,255,255))
+planet_creator(10000,0,0,[900,500],yellow)
+planet_creator(5,4,0,[800,500],white)
+planet_creator(10,-2.5,0,[600,500],yellow)
+planet_creator(10,2,0,[400,500],blue)
+planet_creator(1,2.5,0,[410,500],white)
 
 def rectangle(screen,height,width,pos,color):
     pygame.draw.rect(screen,color,(pos[0],pos[1],height,width))
@@ -76,7 +84,7 @@ while running:
                     angle = pi
                 angle += -atan(dx/dy)
                 speed = sqrt(dx*dx + dy*dy)/200
-                planet_creator((y_comp- 100),speed,angle,posdown,(255,255,255))
+                planet_creator((y_comp- 100)*2,speed,angle,posdown,(255,255,255))
             parti = False
     
 

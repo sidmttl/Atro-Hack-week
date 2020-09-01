@@ -1,3 +1,5 @@
+🎉This work won the 1st prize in Zenith'19 Astro Hack-week Hackathon.🎉
+
 the work can be seen by running the file in code.py
 the work will require the definitions of the universe in the pyparticles.py file.
 
